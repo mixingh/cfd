@@ -12,31 +12,13 @@ from requests import RequestException
 from ql_util import get_random_str
 from ql_api import get_envs, disable_env, post_envs, put_envs
 
-#获取最新的cfd100元链接
-def get_cfd100url():
-    APIurl = 'https://v1.114api.com/jd/cfd'
-    def get_page(url):
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62'
-            }
-        try:
-            response=requests.get(url,headers=headers)
-            if response.status_code==200:
-                return response.text
-            return None
-        except RequestException:
-            return None
-    text = get_page(APIurl)
-    text1 = json.loads(text)
-    text2 = text1['data']
-    cfd100url = text2['result']
-    return cfd100url
+
 # 默认配置(看不懂代码也勿动)
 cfd_start_time = -0.15
 cfd_offset_time = 0.01
 
-# 基础配置勿动
-cfd_url = get_cfd100url()
+# 基础配置勿动 手动抓url版本 url源自论坛 可自己抓包替换
+cfd_url = "https://m.jingxi.com/jxbfd/user/ExchangePrize?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=1648778416388&ptag=7155.9.47&dwType=3&dwLvl=2&ddwPaperMoney=100000&strPoolName=jxcfd2_exchange_hb_202204&strPgtimestamp=1648778416345&strPhoneID=1ef0eafd7b25011a040a37ab925a5586ebfe3f35&strPgUUNum=1674e9a767125864a580ba003b8e655b&_stk=_cfd_t%2CbizCode%2CddwPaperMoney%2CdwEnv%2CdwLvl%2CdwType%2Cptag%2Csource%2CstrPgUUNum%2CstrPgtimestamp%2CstrPhoneID%2CstrPoolName%2CstrZone&_ste=1&h5st=20220401100016388%3B9785369927142102%3B92a36%3Btk02w5c951a1218nwt7hCp33UXI2Fjh60u3JfB%2BJ8MEWiMV%2Fibq4jLJPa3oZjNWJAHB1M35JEoTGURFBUSdW9vmWI3Y4%3B62cd48fa4161a161d28b0491ea99225665b121721a11208c5ffe19b0cf1cf4c7%3B3.0%3B1648778416388&_=1648778416389&sceneval=2&g_login_type=1&callback=jsonpCBKX&g_ty=ls"
 pattern_pin = re.compile(r'pt_pin=([\w\W]*?);')
 pattern_data = re.compile(r'\(([\w\W]*?)\)')
 
